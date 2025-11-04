@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Fishing Logger">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3498db">
+    <meta name="theme-color" content="#0a0e27">
     <title>Fishing Logger</title>
     <style>
         * {
@@ -23,6 +23,12 @@
             min-height: 100vh;
             color: #e0e0e0;
             position: relative;
+            transition: background 0.3s ease;
+        }
+
+        body.light-mode {
+            background: #f0f2f5;
+            color: #2c3e50;
         }
 
         body::before {
@@ -40,6 +46,13 @@
             z-index: 0;
         }
 
+        body.light-mode::before {
+            background: 
+                linear-gradient(90deg, rgba(0, 100, 150, 0.05) 1px, transparent 1px),
+                linear-gradient(rgba(0, 100, 150, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
         .header {
             background: linear-gradient(135deg, #1a1f3a 0%, #0f1729 100%);
             color: #00ffff;
@@ -51,6 +64,13 @@
             z-index: 1;
         }
 
+        body.light-mode .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.2);
+        }
+
         .header h1 {
             font-size: 28px;
             margin-bottom: 8px;
@@ -60,12 +80,63 @@
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3);
         }
 
-        .header p {
-            font-size: 12px;
-            opacity: 0.8;
-            letter-spacing: 2px;
+        body.light-mode .header h1 {
+            text-shadow: none;
+        }
+
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background: #00ffff;
+            color: #0a0e27;
+        }
+
+        body.light-mode .icon-btn {
+            background: rgba(52, 152, 219, 0.1);
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        body.light-mode .icon-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .offline-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            padding: 10px 15px;
+            font-size: 11px;
             text-transform: uppercase;
-            color: #00d4d4;
+            letter-spacing: 1px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .offline-indicator.show {
+            display: block;
         }
 
         .container {
@@ -79,14 +150,17 @@
         .card {
             background: linear-gradient(135deg, #1a1f3a 0%, #151829 100%);
             border: 1px solid #00ffff;
-            border-radius: 0;
             padding: 30px;
             margin-bottom: 20px;
-            box-shadow: 
-                0 0 20px rgba(0, 255, 255, 0.1),
-                inset 0 1px 0 rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(0, 255, 255, 0.1);
             position: relative;
             clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+        }
+
+        body.light-mode .card {
+            background: white;
+            border-color: #3498db;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .card::before {
@@ -100,12 +174,15 @@
             clip-path: polygon(0 0, 100% 0, 100% 100%);
         }
 
+        body.light-mode .card::before {
+            background: #3498db;
+        }
+
         .btn {
             width: 100%;
             padding: 16px;
             border: 2px solid #00ffff;
             background: linear-gradient(135deg, #1a1f3a 0%, #0f1729 100%);
-            border-radius: 0;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
@@ -119,35 +196,22 @@
             font-family: 'Consolas', 'Monaco', monospace;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+        body.light-mode .btn {
+            background: white;
+            border-color: #3498db;
+            color: #3498db;
         }
 
         .btn:hover {
             background: #00ffff;
             color: #0a0e27;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
             transform: translateX(2px);
         }
 
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            border-color: #00ffff;
-            color: #00ffff;
+        body.light-mode .btn:hover {
+            background: #3498db;
+            color: white;
         }
 
         .btn-success {
@@ -158,7 +222,16 @@
         .btn-success:hover {
             background: #00ff88;
             color: #0a0e27;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        body.light-mode .btn-success {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        body.light-mode .btn-success:hover {
+            background: #27ae60;
+            color: white;
         }
 
         .btn-secondary {
@@ -166,9 +239,9 @@
             color: #999;
         }
 
-        .btn-secondary:hover {
-            background: #666;
-            color: #fff;
+        body.light-mode .btn-secondary {
+            border-color: #95a5a6;
+            color: #7f8c8d;
         }
 
         .btn-danger {
@@ -181,13 +254,20 @@
         .btn-danger:hover {
             background: #ff3366;
             color: #0a0e27;
-            box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+        }
+
+        body.light-mode .btn-danger {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        body.light-mode .btn-danger:hover {
+            background: #e74c3c;
+            color: white;
         }
 
         .back-btn {
             background: transparent;
-            border-color: #00ffff;
-            color: #00ffff;
         }
 
         input, textarea, select {
@@ -195,7 +275,6 @@
             padding: 14px;
             border: 1px solid #00ffff;
             background: rgba(15, 23, 41, 0.8);
-            border-radius: 0;
             font-size: 14px;
             margin-bottom: 15px;
             font-family: 'Consolas', monospace;
@@ -203,14 +282,25 @@
             transition: all 0.3s ease;
         }
 
+        body.light-mode input,
+        body.light-mode textarea,
+        body.light-mode select {
+            background: #f8f9fa;
+            border-color: #dfe6e9;
+            color: #2c3e50;
+        }
+
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #00ff88;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
         }
 
-        input::placeholder, textarea::placeholder {
-            color: rgba(0, 255, 255, 0.3);
+        body.light-mode input:focus,
+        body.light-mode textarea:focus,
+        body.light-mode select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
         label {
@@ -221,6 +311,10 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 2px;
+        }
+
+        body.light-mode label {
+            color: #34495e;
         }
 
         .photo-btn {
@@ -236,13 +330,12 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: all 0.3s ease;
-            position: relative;
         }
 
-        .photo-btn:hover {
-            border-color: #00ffff;
-            color: #00ffff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        body.light-mode .photo-btn {
+            background: #f8f9fa;
+            border-color: #3498db;
+            color: #3498db;
         }
 
         .photo-preview {
@@ -252,6 +345,11 @@
             border: 2px solid #00ffff;
         }
 
+        body.light-mode .photo-preview {
+            border-color: #3498db;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
         .trip-item {
             background: linear-gradient(135deg, #1a1f3a 0%, #151829 100%);
             border: 1px solid #00ffff;
@@ -259,32 +357,24 @@
             padding: 24px;
             margin-bottom: 16px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
             position: relative;
             clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
         }
 
-        .trip-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ffff, transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
+        body.light-mode .trip-item {
+            background: white;
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .trip-item:hover {
             transform: translateX(5px);
             box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
-            border-color: #00ff88;
         }
 
-        .trip-item:hover::before {
-            opacity: 1;
+        body.light-mode .trip-item:hover {
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
         }
 
         .trip-date {
@@ -294,13 +384,20 @@
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        body.light-mode .trip-date {
+            color: #3498db;
         }
 
         .trip-location {
             font-size: 16px;
             color: #00d4d4;
             margin-bottom: 10px;
+        }
+
+        body.light-mode .trip-location {
+            color: #5d6d7e;
         }
 
         .trip-stats {
@@ -310,25 +407,22 @@
             letter-spacing: 1px;
         }
 
+        body.light-mode .trip-stats {
+            color: #95a5a6;
+        }
+
         .catch-card {
             background: linear-gradient(135deg, #1a1f3a 0%, #151829 100%);
             border: 1px solid #00ff88;
             border-left: 4px solid #00ff88;
             padding: 24px;
             margin-bottom: 18px;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
             position: relative;
         }
 
-        .catch-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 15px;
-            height: 15px;
-            background: #00ff88;
-            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        body.light-mode .catch-card {
+            background: #f8f9fa;
+            border-color: #27ae60;
         }
 
         .catch-species {
@@ -338,16 +432,22 @@
             color: #00ff88;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        body.light-mode .catch-species {
+            color: #27ae60;
         }
 
         .catch-detail {
             font-size: 14px;
             color: #999;
             margin-bottom: 8px;
-            font-family: 'Consolas', monospace;
             padding-left: 15px;
             position: relative;
+        }
+
+        body.light-mode .catch-detail {
+            color: #5d6d7e;
         }
 
         .catch-detail::before {
@@ -357,11 +457,19 @@
             color: #00ff88;
         }
 
+        body.light-mode .catch-detail::before {
+            color: #27ae60;
+        }
+
         .catch-photo {
             width: 100%;
             margin-bottom: 15px;
-            box-shadow: 0 0 25px rgba(0, 255, 136, 0.3);
             border: 2px solid #00ff88;
+            cursor: pointer;
+        }
+
+        body.light-mode .catch-photo {
+            border-color: #27ae60;
         }
 
         .hidden { display: none; }
@@ -376,13 +484,6 @@
             font-size: 100px;
             margin-bottom: 25px;
             opacity: 0.3;
-            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
-        }
-
-        .empty-state p {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
 
         input[type="file"] { display: none; }
@@ -402,7 +503,10 @@
             letter-spacing: 3px;
             position: relative;
             padding-bottom: 15px;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        body.light-mode h2 {
+            color: #2c3e50;
         }
 
         h2::after {
@@ -413,7 +517,10 @@
             width: 80px;
             height: 2px;
             background: #00ffff;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+
+        body.light-mode h2::after {
+            background: #3498db;
         }
 
         h3 {
@@ -425,30 +532,139 @@
             letter-spacing: 2px;
         }
 
+        body.light-mode h3 {
+            color: #27ae60;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1f3a;
+            border: 2px solid #00ffff;
+            padding: 30px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            position: relative;
+        }
+
+        body.light-mode .modal-content {
+            background: white;
+            border-color: #3498db;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff3366;
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            border: 2px solid #00ffff;
+            cursor: pointer;
+            position: relative;
+        }
+
+        body.light-mode .gallery-item {
+            border-color: #3498db;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ffff;
+            padding: 5px;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .favorite-locations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .fav-tag {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 8px 12px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fav-tag:hover {
+            background: #00ffff;
+            color: #0a0e27;
+        }
+
+        body.light-mode .fav-tag {
+            background: rgba(52, 152, 219, 0.1);
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        body.light-mode .fav-tag:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .edit-mode {
+            border-color: #ff3366 !important;
+        }
+
         select option {
             background: #0f1729;
             color: #00ffff;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        body.light-mode select option {
+            background: white;
+            color: #2c3e50;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #0a0e27;
-            border-left: 1px solid #00ffff;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #00ffff;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00ff88;
-        }
-
-        /* Tech corners effect */
         .card::after {
             content: '';
             position: absolute;
@@ -459,31 +675,69 @@
             border-left: 2px solid #00ffff;
             border-bottom: 2px solid #00ffff;
         }
+
+        body.light-mode .card::after {
+            border-color: #3498db;
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .header-controls {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .icon-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="offline-indicator" id="offlineIndicator">
+        ● DATA SAVED LOCALLY
+    </div>
+
     <div class="header">
-        <h1>🎣 Fishing Trip Logger</h1>
-        <p>Track your catches</p>
+        <div class="header-controls">
+            <button class="icon-btn" id="btnThemeToggle" title="Toggle Theme">☀</button>
+            <button class="icon-btn" id="btnGallery" title="Photo Gallery">🖼</button>
+            <button class="icon-btn" id="btnMenu" title="Menu">☰</button>
+        </div>
+        <h1>🎣 FISHING LOGGER</h1>
+        <p>TRACK YOUR CATCHES</p>
     </div>
 
     <div class="container">
         <div id="mainMenu">
             <div class="card">
-                <button class="btn btn-primary" id="btnNewTrip">➕ New Fishing Trip</button>
-                <button class="btn btn-secondary" id="btnViewTrips">📋 View Past Trips (<span id="tripCount">0</span>)</button>
+                <button class="btn btn-primary" id="btnNewTrip">➕ NEW FISHING TRIP</button>
+                <button class="btn btn-secondary" id="btnViewTrips">📋 VIEW PAST TRIPS (<span id="tripCount">0</span>)</button>
+                <button class="btn btn-secondary" id="btnFavorites">⭐ FAVORITE LOCATIONS</button>
+                <button class="btn btn-secondary" id="btnBackup">💾 BACKUP & RESTORE</button>
             </div>
         </div>
 
         <div id="newTripForm" class="hidden">
-            <button class="btn back-btn" id="btnBackFromNewTrip">← Back</button>
+            <button class="btn back-btn" id="btnBackFromNewTrip">← BACK</button>
             <div class="card">
-                <h2>New Trip</h2>
-                <label>Date</label>
+                <h2>NEW TRIP</h2>
+                
+                <div id="favLocationsSection" class="hidden">
+                    <label>FAVORITE LOCATIONS</label>
+                    <div class="favorite-locations" id="favoriteLocationsList"></div>
+                </div>
+                
+                <label>DATE</label>
                 <input type="date" id="tripDate">
-                <label>Location/Dam</label>
+                <label>LOCATION/DAM</label>
                 <input type="text" id="tripLocation" placeholder="e.g., Hartbeespoort Dam">
-                <label>Weather (optional)</label>
+                <label>WEATHER (OPTIONAL)</label>
                 <select id="tripWeather">
                     <option value="">Select...</option>
                     <option value="☀️ Sunny">☀️ Sunny</option>
@@ -493,67 +747,122 @@
                     <option value="⛈️ Stormy">⛈️ Stormy</option>
                     <option value="💨 Windy">💨 Windy</option>
                 </select>
-                <button class="btn btn-success" id="btnStartLogging">Start Logging</button>
+                <button class="btn btn-success" id="btnStartLogging">START LOGGING</button>
             </div>
         </div>
 
         <div id="addCatchForm" class="hidden">
-            <button class="btn back-btn" id="btnFinishTrip">✓ Finish Trip</button>
+            <button class="btn back-btn" id="btnFinishTrip">✓ FINISH TRIP</button>
             <div class="card">
-                <h2>Add Catch</h2>
+                <h2>ADD CATCH</h2>
                 <div class="photo-btn" id="photoBtn">
-                    <div id="photoText">📷 Tap to Add Photo</div>
+                    <div id="photoText">📷 TAP TO ADD PHOTO</div>
                 </div>
                 <input type="file" id="catchPhoto" accept="image/*">
                 <img id="photoPreview" class="photo-preview hidden">
                 
-                <label>Species (optional)</label>
+                <label>SPECIES (OPTIONAL)</label>
                 <input type="text" id="catchSpecies" placeholder="e.g., Bass, Carp">
                 
                 <div class="form-row">
                     <div>
-                        <label>Weight kg</label>
+                        <label>WEIGHT KG</label>
                         <input type="text" id="catchWeight" placeholder="e.g., 3.5">
                     </div>
                     <div>
-                        <label>Length cm</label>
+                        <label>LENGTH CM</label>
                         <input type="text" id="catchLength" placeholder="e.g., 45">
                     </div>
                 </div>
                 
-                <label>Distance from Shore m (optional)</label>
+                <label>DISTANCE FROM SHORE M (OPTIONAL)</label>
                 <input type="text" id="catchDistance" placeholder="e.g., 30">
                 
-                <label>Time Caught (optional)</label>
+                <label>TIME CAUGHT (OPTIONAL)</label>
                 <input type="time" id="catchTime">
                 
-                <label>Bait/Lure Used (optional)</label>
+                <label>BAIT/LURE USED (OPTIONAL)</label>
                 <input type="text" id="catchBait" placeholder="e.g., Soft plastic worm">
                 
-                <label>Notes (optional)</label>
+                <label>NOTES (OPTIONAL)</label>
                 <textarea id="catchNotes" rows="3" placeholder="Additional details..."></textarea>
                 
-                <button class="btn btn-success" id="btnSaveCatch">✓ Save Catch</button>
+                <button class="btn btn-success" id="btnSaveCatch">✓ SAVE CATCH</button>
             </div>
 
             <div id="currentCatchesSection" class="hidden">
                 <div class="card">
-                    <h3>Today's Catches (<span id="catchCount">0</span>)</h3>
+                    <h3>TODAY'S CATCHES (<span id="catchCount">0</span>)</h3>
                     <div id="currentCatchesList"></div>
                 </div>
             </div>
         </div>
 
         <div id="viewTripsSection" class="hidden">
-            <button class="btn back-btn" id="btnBackFromTrips">← Back</button>
+            <button class="btn back-btn" id="btnBackFromTrips">← BACK</button>
             <div id="tripsList"></div>
         </div>
 
         <div id="tripDetailSection" class="hidden">
-            <button class="btn back-btn" id="btnBackFromDetail">← Back to Trips</button>
+            <button class="btn back-btn" id="btnBackFromDetail">← BACK TO TRIPS</button>
             <div class="card">
                 <div id="tripDetailContent"></div>
             </div>
+        </div>
+
+        <div id="favoritesSection" class="hidden">
+            <button class="btn back-btn" id="btnBackFromFavorites">← BACK</button>
+            <div class="card">
+                <h2>FAVORITE LOCATIONS</h2>
+                <div id="favoritesList"></div>
+                <p style="color: #666; font-size: 12px; margin-top: 20px;">
+                    Visit locations multiple times to see them here
+                </p>
+            </div>
+        </div>
+
+        <div id="backupSection" class="hidden">
+            <button class="btn back-btn" id="btnBackFromBackup">← BACK</button>
+            <div class="card">
+                <h2>BACKUP & RESTORE</h2>
+                
+                <button class="btn btn-success" id="btnExportData">⬇️ EXPORT ALL DATA</button>
+                <button class="btn btn-secondary" id="btnImportData">⬆️ IMPORT DATA</button>
+                <input type="file" id="importFile" accept=".json" style="display:none;">
+                
+                <p style="color: #666; font-size: 12px; margin-top: 20px;">
+                    Export creates a JSON file with all your trips. Import will ADD to existing data.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Gallery Modal -->
+    <div class="modal" id="galleryModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeGallery">×</button>
+            <h2>PHOTO GALLERY</h2>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+    </div>
+
+    <!-- Image Viewer Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content" style="max-width: 95%; max-height: 95%; padding: 0;">
+            <button class="modal-close" id="closeImage">×</button>
+            <img id="modalImage" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <!-- Menu Modal -->
+    <div class="modal" id="menuModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeMenu">×</button>
+            <h2>SHARE TRIP</h2>
+            <p style="color: #666; font-size: 12px; margin-bottom: 15px;">
+                Select a trip to share from the trips list
+            </p>
+            <button class="btn btn-secondary" id="btnCloseMenu">CLOSE</button>
         </div>
     </div>
 
@@ -561,6 +870,30 @@
         let trips = JSON.parse(localStorage.getItem('fishingTrips')) || [];
         let currentTrip = null;
         let currentPhoto = null;
+        let editingTripIndex = null;
+        let editingCatchIndex = null;
+
+        // Theme
+        let isDarkMode = localStorage.getItem('theme') !== 'light';
+        if (!isDarkMode) {
+            document.body.classList.add('light-mode');
+            document.getElementById('btnThemeToggle').textContent = '🌙';
+        }
+
+        document.getElementById('btnThemeToggle').onclick = function() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('light-mode');
+            this.textContent = isDarkMode ? '☀' : '🌙';
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        };
+
+        // Offline indicator
+        function showOfflineIndicator() {
+            document.getElementById('offlineIndicator').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('offlineIndicator').classList.remove('show');
+            }, 2000);
+        }
 
         document.getElementById('tripDate').valueAsDate = new Date();
 
@@ -578,9 +911,176 @@
             document.getElementById(sectionId).classList.remove('hidden');
         }
 
+        // Favorite locations
+        function getFavoriteLocations() {
+            const locationCounts = {};
+            trips.forEach(trip => {
+                const loc = trip.location.toLowerCase();
+                locationCounts[loc] = (locationCounts[loc] || 0) + 1;
+            });
+            return Object.entries(locationCounts)
+                .filter(([_, count]) => count >= 2)
+                .sort((a, b) => b[1] - a[1])
+                .map(([loc, _]) => loc);
+        }
+
+        function displayFavoriteLocations() {
+            const favorites = getFavoriteLocations();
+            const favSection = document.getElementById('favLocationsSection');
+            const favList = document.getElementById('favoriteLocationsList');
+            
+            if (favorites.length > 0) {
+                favSection.classList.remove('hidden');
+                favList.innerHTML = favorites.map(loc => 
+                    `<div class="fav-tag" onclick="selectFavorite('${loc}')">${loc}</div>`
+                ).join('');
+            } else {
+                favSection.classList.add('hidden');
+            }
+        }
+
+        function selectFavorite(location) {
+            document.getElementById('tripLocation').value = location.charAt(0).toUpperCase() + location.slice(1);
+        }
+
+        // Gallery
+        document.getElementById('btnGallery').onclick = function() {
+            const modal = document.getElementById('galleryModal');
+            const grid = document.getElementById('galleryGrid');
+            
+            const photos = [];
+            trips.forEach(trip => {
+                trip.catches.forEach(c => {
+                    if (c.photo) {
+                        photos.push({
+                            photo: c.photo,
+                            species: c.species,
+                            date: formatDate(trip.date),
+                            location: trip.location
+                        });
+                    }
+                });
+            });
+            
+            if (photos.length === 0) {
+                grid.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No photos yet</p>';
+            } else {
+                grid.innerHTML = photos.map((p, i) => `
+                    <div class="gallery-item" onclick="viewImage('${p.photo}')">
+                        <img src="${p.photo}" alt="${p.species}">
+                        <div class="gallery-caption">${p.species} - ${p.date}</div>
+                    </div>
+                `).join('');
+            }
+            
+            modal.classList.add('show');
+        };
+
+        document.getElementById('closeGallery').onclick = function() {
+            document.getElementById('galleryModal').classList.remove('show');
+        };
+
+        function viewImage(src) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('imageModal').classList.add('show');
+        }
+
+        document.getElementById('closeImage').onclick = function() {
+            document.getElementById('imageModal').classList.remove('show');
+        };
+
+        // Menu
+        document.getElementById('btnMenu').onclick = function() {
+            document.getElementById('menuModal').classList.add('show');
+        };
+
+        document.getElementById('closeMenu').onclick = 
+        document.getElementById('btnCloseMenu').onclick = function() {
+            document.getElementById('menuModal').classList.remove('show');
+        };
+
+        // Backup & Restore
+        document.getElementById('btnBackup').onclick = function() {
+            showSection('backupSection');
+        };
+
+        document.getElementById('btnBackFromBackup').onclick = function() {
+            showSection('mainMenu');
+        };
+
+        document.getElementById('btnExportData').onclick = function() {
+            const dataStr = JSON.stringify(trips, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fishing-data-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            alert('Data exported! Check your downloads.');
+        };
+
+        document.getElementById('btnImportData').onclick = function() {
+            document.getElementById('importFile').click();
+        };
+
+        document.getElementById('importFile').onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        if (Array.isArray(importedData)) {
+                            trips = trips.concat(importedData);
+                            localStorage.setItem('fishingTrips', JSON.stringify(trips));
+                            updateTripCount();
+                            showOfflineIndicator();
+                            alert(`Imported ${importedData.length} trips!`);
+                        } else {
+                            alert('Invalid file format');
+                        }
+                    } catch (err) {
+                        alert('Error reading file');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        };
+
+        // Favorites section
+        document.getElementById('btnFavorites').onclick = function() {
+            showSection('favoritesSection');
+            displayAllFavorites();
+        };
+
+        document.getElementById('btnBackFromFavorites').onclick = function() {
+            showSection('mainMenu');
+        };
+
+        function displayAllFavorites() {
+            const favorites = getFavoriteLocations();
+            const list = document.getElementById('favoritesList');
+            
+            if (favorites.length === 0) {
+                list.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No favorite locations yet. Visit the same location multiple times!</p>';
+                return;
+            }
+            
+            list.innerHTML = favorites.map(loc => {
+                const count = trips.filter(t => t.location.toLowerCase() === loc).length;
+                return `
+                    <div class="trip-item" style="cursor: default;">
+                        <div class="trip-date">${loc.toUpperCase()}</div>
+                        <div class="trip-stats">${count} VISITS</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         // Main menu
         document.getElementById('btnNewTrip').onclick = function() {
             showSection('newTripForm');
+            displayFavoriteLocations();
             document.getElementById('tripDate').valueAsDate = new Date();
         };
 
@@ -588,7 +1088,6 @@
             viewTrips();
         };
 
-        // New trip
         document.getElementById('btnBackFromNewTrip').onclick = function() {
             showSection('mainMenu');
             updateTripCount();
@@ -631,7 +1130,7 @@
                     currentPhoto = e.target.result;
                     document.getElementById('photoPreview').src = currentPhoto;
                     document.getElementById('photoPreview').classList.remove('hidden');
-                    document.getElementById('photoText').textContent = '✓ Photo Added';
+                    document.getElementById('photoText').textContent = '✓ PHOTO ADDED';
                 };
                 reader.readAsDataURL(file);
             }
@@ -639,7 +1138,7 @@
 
         // Save catch
         document.getElementById('btnSaveCatch').onclick = function() {
-            currentTrip.catches.push({
+            const catchData = {
                 photo: currentPhoto,
                 species: document.getElementById('catchSpecies').value || 'Fish',
                 weight: document.getElementById('catchWeight').value,
@@ -648,7 +1147,16 @@
                 time: document.getElementById('catchTime').value,
                 bait: document.getElementById('catchBait').value,
                 notes: document.getElementById('catchNotes').value
-            });
+            };
+
+            if (editingCatchIndex !== null) {
+                currentTrip.catches[editingCatchIndex] = catchData;
+                editingCatchIndex = null;
+                alert('Catch updated!');
+            } else {
+                currentTrip.catches.push(catchData);
+                alert('Catch saved! Add another or finish trip.');
+            }
 
             // Clear form
             document.getElementById('catchPhoto').value = '';
@@ -660,24 +1168,30 @@
             document.getElementById('catchBait').value = '';
             document.getElementById('catchNotes').value = '';
             document.getElementById('photoPreview').classList.add('hidden');
-            document.getElementById('photoText').textContent = '📷 Tap to Add Photo';
+            document.getElementById('photoText').textContent = '📷 TAP TO ADD PHOTO';
             currentPhoto = null;
 
             updateCurrentCatches();
-            alert('Catch saved! Add another or finish trip.');
         };
 
-        // Finish trip
         document.getElementById('btnFinishTrip').onclick = function() {
             if (currentTrip.catches.length === 0) {
                 if (!confirm('No catches logged. Save trip anyway?')) return;
             }
 
-            trips.push(currentTrip);
+            if (editingTripIndex !== null) {
+                trips[editingTripIndex] = currentTrip;
+                editingTripIndex = null;
+                alert('Trip updated!');
+            } else {
+                trips.push(currentTrip);
+                alert('Trip saved! 🎉');
+            }
+
             localStorage.setItem('fishingTrips', JSON.stringify(trips));
+            showOfflineIndicator();
             currentTrip = null;
 
-            alert('Trip saved! 🎉');
             showSection('mainMenu');
             updateTripCount();
         };
@@ -696,28 +1210,60 @@
 
             list.innerHTML = currentTrip.catches.map((c, i) => `
                 <div class="catch-card">
-                    ${c.photo ? `<img src="${c.photo}" class="catch-photo">` : ''}
+                    ${c.photo ? `<img src="${c.photo}" class="catch-photo" onclick="viewImage('${c.photo}')">` : ''}
                     <div class="catch-species">${c.species}</div>
                     ${c.weight ? `<div class="catch-detail">⚖️ ${c.weight} kg</div>` : ''}
                     ${c.length ? `<div class="catch-detail">📏 ${c.length} cm</div>` : ''}
                     ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m from shore</div>` : ''}
                     ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
                     ${c.bait ? `<div class="catch-detail">🎣 ${c.bait}</div>` : ''}
-                    ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:#ecf0f1; border-radius:4px;">${c.notes}</div>` : ''}
-                    <button class="btn btn-danger" data-catch-index="${i}">Delete</button>
+                    ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:rgba(0,255,136,0.1);">${c.notes}</div>` : ''}
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button class="btn btn-secondary" data-catch-index="${i}" style="flex: 1;">EDIT</button>
+                        <button class="btn btn-danger" data-catch-delete="${i}" style="flex: 1;">DELETE</button>
+                    </div>
                 </div>
             `).join('');
 
-            // Attach delete handlers
-            list.querySelectorAll('.btn-danger').forEach(btn => {
+            list.querySelectorAll('[data-catch-index]').forEach(btn => {
                 btn.onclick = function() {
                     const idx = parseInt(this.dataset.catchIndex);
+                    editCatch(idx);
+                };
+            });
+
+            list.querySelectorAll('[data-catch-delete]').forEach(btn => {
+                btn.onclick = function() {
+                    const idx = parseInt(this.dataset.catchDelete);
                     if (confirm('Delete this catch?')) {
                         currentTrip.catches.splice(idx, 1);
                         updateCurrentCatches();
                     }
                 };
             });
+        }
+
+        function editCatch(index) {
+            const c = currentTrip.catches[index];
+            editingCatchIndex = index;
+            
+            if (c.photo) {
+                currentPhoto = c.photo;
+                document.getElementById('photoPreview').src = c.photo;
+                document.getElementById('photoPreview').classList.remove('hidden');
+                document.getElementById('photoText').textContent = '✓ PHOTO ADDED';
+            }
+            
+            document.getElementById('catchSpecies').value = c.species === 'Fish' ? '' : c.species;
+            document.getElementById('catchWeight').value = c.weight || '';
+            document.getElementById('catchLength').value = c.length || '';
+            document.getElementById('catchDistance').value = c.distance || '';
+            document.getElementById('catchTime').value = c.time || '';
+            document.getElementById('catchBait').value = c.bait || '';
+            document.getElementById('catchNotes').value = c.notes || '';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alert('Edit the catch and click Save Catch');
         }
 
         function viewTrips() {
@@ -729,7 +1275,7 @@
                     <div class="card">
                         <div class="empty-state">
                             <div class="empty-icon">🎣</div>
-                            <p>No trips yet!<br>Start your first fishing trip.</p>
+                            <p>NO TRIPS YET<br>START YOUR FIRST FISHING TRIP</p>
                         </div>
                     </div>
                 `;
@@ -743,14 +1289,13 @@
                         <div class="trip-date">${formatDate(trip.date)}</div>
                         <div class="trip-location">📍 ${trip.location}</div>
                         <div class="trip-stats">
-                            🐟 ${trip.catches.length} catch${trip.catches.length !== 1 ? 'es' : ''}
+                            🐟 ${trip.catches.length} CATCH${trip.catches.length !== 1 ? 'ES' : ''}
                             ${trip.weather ? ` • ${trip.weather}` : ''}
                         </div>
                     </div>
                 `;
             }).join('');
 
-            // Attach click handlers
             list.querySelectorAll('.trip-item').forEach(item => {
                 item.onclick = function() {
                     viewTripDetail(parseInt(this.dataset.tripIndex));
@@ -769,46 +1314,115 @@
             const content = document.getElementById('tripDetailContent');
 
             content.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap: wrap; gap: 10px;">
                     <h2>${formatDate(trip.date)}</h2>
-                    <button class="btn btn-danger" id="btnDeleteTrip">Delete Trip</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" id="btnEditTrip" style="width: auto; padding: 10px 15px;">EDIT</button>
+                        <button class="btn btn-secondary" id="btnShareTrip" style="width: auto; padding: 10px 15px;">SHARE</button>
+                        <button class="btn btn-danger" id="btnDeleteTrip" style="width: auto; padding: 10px 15px;">DELETE</button>
+                    </div>
                 </div>
                 <div style="font-size:18px; margin-bottom:15px;">📍 ${trip.location}</div>
                 ${trip.weather ? `<div style="margin-bottom:20px;">${trip.weather}</div>` : ''}
                 
-                <h3>Catches (${trip.catches.length})</h3>
-                ${trip.catches.length === 0 ? '<p style="color:#95a5a6;">No catches logged</p>' : 
+                <h3>CATCHES (${trip.catches.length})</h3>
+                ${trip.catches.length === 0 ? '<p style="color:#666;">NO CATCHES LOGGED</p>' : 
                     trip.catches.map(c => `
                         <div class="catch-card">
-                            ${c.photo ? `<img src="${c.photo}" class="catch-photo">` : ''}
+                            ${c.photo ? `<img src="${c.photo}" class="catch-photo" onclick="viewImage('${c.photo}')">` : ''}
                             <div class="catch-species">${c.species}</div>
                             ${c.weight ? `<div class="catch-detail">⚖️ ${c.weight} kg</div>` : ''}
                             ${c.length ? `<div class="catch-detail">📏 ${c.length} cm</div>` : ''}
                             ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m from shore</div>` : ''}
                             ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
                             ${c.bait ? `<div class="catch-detail">🎣 ${c.bait}</div>` : ''}
-                            ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:#ecf0f1; border-radius:4px;">${c.notes}</div>` : ''}
+                            ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:rgba(0,255,136,0.1);">${c.notes}</div>` : ''}
                         </div>
                     `).join('')
                 }
             `;
 
-            // Attach delete trip handler
+            document.getElementById('btnEditTrip').onclick = function() {
+                editTrip(index);
+            };
+
+            document.getElementById('btnShareTrip').onclick = function() {
+                shareTrip(index);
+            };
+
             document.getElementById('btnDeleteTrip').onclick = function() {
                 if (confirm('Delete this entire trip?')) {
                     trips.splice(index, 1);
                     localStorage.setItem('fishingTrips', JSON.stringify(trips));
+                    showOfflineIndicator();
                     viewTrips();
                 }
             };
+        }
+
+        function editTrip(index) {
+            const trip = trips[index];
+            editingTripIndex = index;
+            currentTrip = JSON.parse(JSON.stringify(trip)); // Deep clone
+            
+            document.getElementById('tripDate').value = trip.date;
+            document.getElementById('tripLocation').value = trip.location;
+            document.getElementById('tripWeather').value = trip.weather || '';
+            
+            showSection('addCatchForm');
+            updateCurrentCatches();
+            alert('Edit trip details and catches, then click Finish Trip');
+        }
+
+        function shareTrip(index) {
+            const trip = trips[index];
+            const text = `
+🎣 FISHING TRIP - ${formatDate(trip.date)}
+📍 ${trip.location}
+${trip.weather ? `☁️ ${trip.weather}\n` : ''}
+🐟 ${trip.catches.length} CATCH${trip.catches.length !== 1 ? 'ES' : ''}
+
+${trip.catches.map((c, i) => `
+CATCH #${i+1}: ${c.species}
+${c.weight ? `⚖️ ${c.weight} kg` : ''}
+${c.length ? ` | 📏 ${c.length} cm` : ''}
+${c.bait ? `\n🎣 ${c.bait}` : ''}
+${c.notes ? `\n📝 ${c.notes}` : ''}
+`).join('\n---\n')}
+
+Logged with Fishing Logger
+            `.trim();
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Fishing Trip',
+                    text: text
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Trip details copied to clipboard!');
+                }).catch(() => {
+                    alert('Share not supported. Trip details:\n\n' + text);
+                });
+            }
         }
 
         document.getElementById('btnBackFromDetail').onclick = function() {
             viewTrips();
         };
 
+        // Click outside modal to close
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.onclick = function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            };
+        });
+
         // Initialize
         updateTripCount();
+        showOfflineIndicator();
     </script>
 </body>
 </html>
