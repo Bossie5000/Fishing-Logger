@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Fishing Logger">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1e3c72">
+    <meta name="theme-color" content="#3498db">
     <title>Fishing Logger</title>
     <style>
         * {
@@ -18,10 +18,9 @@
         }
 
         body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: #f5f7fa;
             min-height: 100vh;
-            padding: 0;
             color: #2c3e50;
         }
 
@@ -37,11 +36,6 @@
             font-size: 26px;
             margin-bottom: 8px;
             font-weight: normal;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
         }
 
         .container {
@@ -70,47 +64,12 @@
             transition: all 0.2s;
         }
 
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            background: #3498db;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #2980b9;
-        }
-
-        .btn-success {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #229954;
-        }
-
-        .btn-secondary {
-            background: #95a5a6;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #7f8c8d;
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
-            padding: 10px;
-            font-size: 14px;
-        }
-
-        .btn-danger:hover {
-            background: #c0392b;
-        }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn-danger { background: #e74c3c; color: white; padding: 10px; font-size: 14px; }
+        .back-btn { background: white; border: 2px solid #3498db; color: #3498db; }
 
         input, textarea, select {
             width: 100%;
@@ -120,8 +79,6 @@
             font-size: 15px;
             margin-bottom: 15px;
             font-family: inherit;
-            background: white;
-            color: #2c3e50;
         }
 
         input:focus, textarea:focus, select:focus {
@@ -145,13 +102,7 @@
             border-radius: 10px;
             cursor: pointer;
             margin-bottom: 15px;
-            font-size: 15px;
             color: #3498db;
-            transition: all 0.3s;
-        }
-
-        .photo-btn:hover {
-            background: #dfe6e9;
         }
 
         .photo-preview {
@@ -167,33 +118,14 @@
             padding: 20px;
             margin-bottom: 15px;
             cursor: pointer;
-            transition: all 0.2s;
             box-shadow: 0 2px 6px rgba(0,0,0,0.08);
             border-left: 5px solid #3498db;
         }
 
-        .trip-item:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
-        }
-
-        .trip-date {
-            font-size: 20px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .trip-location {
-            font-size: 16px;
-            color: #7f8c8d;
-            margin-bottom: 8px;
-        }
-
-        .trip-stats {
-            font-size: 14px;
-            color: #95a5a6;
-        }
+        .trip-item:active { background: #f8f9fa; }
+        .trip-date { font-size: 20px; font-weight: bold; color: #2c3e50; margin-bottom: 8px; }
+        .trip-location { font-size: 16px; color: #7f8c8d; margin-bottom: 8px; }
+        .trip-stats { font-size: 14px; color: #95a5a6; }
 
         .catch-card {
             background: #f8f9fa;
@@ -203,79 +135,17 @@
             border-radius: 8px;
         }
 
-        .catch-species {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #27ae60;
-        }
+        .catch-species { font-size: 20px; font-weight: bold; margin-bottom: 12px; color: #27ae60; }
+        .catch-detail { font-size: 14px; color: #5d6d7e; margin-bottom: 6px; }
+        .catch-photo { width: 100%; border-radius: 8px; margin-bottom: 12px; }
 
-        .catch-detail {
-            font-size: 14px;
-            color: #5d6d7e;
-            margin-bottom: 6px;
-        }
-
-        .catch-photo {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #95a5a6;
-        }
-
-        .empty-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .back-btn {
-            background: white;
-            border: 2px solid #3498db;
-            color: #3498db;
-            margin-bottom: 15px;
-        }
-
-        .back-btn:hover {
-            background: #3498db;
-            color: white;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        select option {
-            background: white;
-            color: #2c3e50;
-        }
-
-        h2 {
-            color: #2c3e50;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            color: #34495e;
-            font-size: 18px;
-            margin: 25px 0 15px 0;
-        }
+        .hidden { display: none; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #95a5a6; }
+        .empty-icon { font-size: 80px; margin-bottom: 20px; }
+        input[type="file"] { display: none; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        h2 { color: #2c3e50; font-size: 22px; margin-bottom: 20px; }
+        h3 { color: #34495e; font-size: 18px; margin: 25px 0 15px 0; }
     </style>
 </head>
 <body>
@@ -285,26 +155,21 @@
     </div>
 
     <div class="container">
-        <!-- Main Menu -->
         <div id="mainMenu">
             <div class="card">
-                <button class="btn btn-primary" onclick="startNewTrip()">➕ New Fishing Trip</button>
-                <button class="btn btn-secondary" onclick="viewTrips()">📋 View Past Trips (<span id="tripCount">0</span>)</button>
+                <button class="btn btn-primary" id="btnNewTrip">➕ New Fishing Trip</button>
+                <button class="btn btn-secondary" id="btnViewTrips">📋 View Past Trips (<span id="tripCount">0</span>)</button>
             </div>
         </div>
 
-        <!-- New Trip Form -->
         <div id="newTripForm" class="hidden">
-            <button class="btn back-btn" onclick="showMainMenu()">← Back</button>
+            <button class="btn back-btn" id="btnBackFromNewTrip">← Back</button>
             <div class="card">
-                <h2 style="margin-bottom: 20px; color: #52b788;">New Trip</h2>
-                
+                <h2>New Trip</h2>
                 <label>Date</label>
                 <input type="date" id="tripDate">
-                
                 <label>Location/Dam</label>
                 <input type="text" id="tripLocation" placeholder="e.g., Hartbeespoort Dam">
-                
                 <label>Weather (optional)</label>
                 <select id="tripWeather">
                     <option value="">Select...</option>
@@ -315,21 +180,18 @@
                     <option value="⛈️ Stormy">⛈️ Stormy</option>
                     <option value="💨 Windy">💨 Windy</option>
                 </select>
-                
-                <button class="btn btn-success" onclick="saveNewTrip()">Start Logging</button>
+                <button class="btn btn-success" id="btnStartLogging">Start Logging</button>
             </div>
         </div>
 
-        <!-- Add Catch Form -->
         <div id="addCatchForm" class="hidden">
-            <button class="btn back-btn" onclick="finishCurrentTrip()">✓ Finish Trip</button>
+            <button class="btn back-btn" id="btnFinishTrip">✓ Finish Trip</button>
             <div class="card">
-                <h2 style="margin-bottom: 20px; color: #52b788;">Add Catch</h2>
-                
-                <div class="photo-btn" onclick="document.getElementById('catchPhoto').click()">
+                <h2>Add Catch</h2>
+                <div class="photo-btn" id="photoBtn">
                     <div id="photoText">📷 Tap to Add Photo</div>
                 </div>
-                <input type="file" id="catchPhoto" accept="image/*" onchange="handlePhoto(event)">
+                <input type="file" id="catchPhoto" accept="image/*">
                 <img id="photoPreview" class="photo-preview hidden">
                 
                 <label>Species (optional)</label>
@@ -353,32 +215,29 @@
                 <input type="time" id="catchTime">
                 
                 <label>Bait/Lure Used (optional)</label>
-                <input type="text" id="catchBait" placeholder="e.g., Soft plastic worm, Live bait">
+                <input type="text" id="catchBait" placeholder="e.g., Soft plastic worm">
                 
                 <label>Notes (optional)</label>
-                <textarea id="catchNotes" rows="3" placeholder="Additional details, conditions, etc."></textarea>
+                <textarea id="catchNotes" rows="3" placeholder="Additional details..."></textarea>
                 
-                <button class="btn btn-success" onclick="saveCatch()">✓ Save Catch</button>
+                <button class="btn btn-success" id="btnSaveCatch">✓ Save Catch</button>
             </div>
 
-            <!-- Current Catches -->
             <div id="currentCatchesSection" class="hidden">
                 <div class="card">
-                    <h3 style="margin-bottom: 15px;">Today's Catches (<span id="catchCount">0</span>)</h3>
+                    <h3>Today's Catches (<span id="catchCount">0</span>)</h3>
                     <div id="currentCatchesList"></div>
                 </div>
             </div>
         </div>
 
-        <!-- View Trips -->
         <div id="viewTripsSection" class="hidden">
-            <button class="btn back-btn" onclick="showMainMenu()">← Back</button>
+            <button class="btn back-btn" id="btnBackFromTrips">← Back</button>
             <div id="tripsList"></div>
         </div>
 
-        <!-- View Trip Detail -->
         <div id="tripDetailSection" class="hidden">
-            <button class="btn back-btn" onclick="viewTrips()">← Back to Trips</button>
+            <button class="btn back-btn" id="btnBackFromDetail">← Back to Trips</button>
             <div class="card">
                 <div id="tripDetailContent"></div>
             </div>
@@ -390,7 +249,6 @@
         let currentTrip = null;
         let currentPhoto = null;
 
-        // Set today's date
         document.getElementById('tripDate').valueAsDate = new Date();
 
         function updateTripCount() {
@@ -399,25 +257,31 @@
 
         function formatDate(dateStr) {
             const d = new Date(dateStr);
-            const day = String(d.getDate()).padStart(2, '0');
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const year = d.getFullYear();
-            return `${day}/${month}/${year}`;
+            return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
         }
 
-        function showMainMenu() {
+        function showSection(sectionId) {
             document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
-            document.getElementById('mainMenu').classList.remove('hidden');
-            updateTripCount();
+            document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        function startNewTrip() {
-            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
-            document.getElementById('newTripForm').classList.remove('hidden');
+        // Main menu
+        document.getElementById('btnNewTrip').onclick = function() {
+            showSection('newTripForm');
             document.getElementById('tripDate').valueAsDate = new Date();
-        }
+        };
 
-        function saveNewTrip() {
+        document.getElementById('btnViewTrips').onclick = function() {
+            viewTrips();
+        };
+
+        // New trip
+        document.getElementById('btnBackFromNewTrip').onclick = function() {
+            showSection('mainMenu');
+            updateTripCount();
+        };
+
+        document.getElementById('btnStartLogging').onclick = function() {
             const date = document.getElementById('tripDate').value;
             const location = document.getElementById('tripLocation').value;
 
@@ -434,18 +298,20 @@
                 catches: []
             };
 
-            // Clear form
             document.getElementById('tripLocation').value = '';
             document.getElementById('tripWeather').value = '';
-
-            // Show add catch form
-            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
-            document.getElementById('addCatchForm').classList.remove('hidden');
+            
+            showSection('addCatchForm');
             updateCurrentCatches();
-        }
+        };
 
-        function handlePhoto(event) {
-            const file = event.target.files[0];
+        // Photo handling
+        document.getElementById('photoBtn').onclick = function() {
+            document.getElementById('catchPhoto').click();
+        };
+
+        document.getElementById('catchPhoto').onchange = function(e) {
+            const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -456,10 +322,11 @@
                 };
                 reader.readAsDataURL(file);
             }
-        }
+        };
 
-        function saveCatch() {
-            const catchData = {
+        // Save catch
+        document.getElementById('btnSaveCatch').onclick = function() {
+            currentTrip.catches.push({
                 photo: currentPhoto,
                 species: document.getElementById('catchSpecies').value || 'Fish',
                 weight: document.getElementById('catchWeight').value,
@@ -468,9 +335,7 @@
                 time: document.getElementById('catchTime').value,
                 bait: document.getElementById('catchBait').value,
                 notes: document.getElementById('catchNotes').value
-            };
-
-            currentTrip.catches.push(catchData);
+            });
 
             // Clear form
             document.getElementById('catchPhoto').value = '';
@@ -487,12 +352,26 @@
 
             updateCurrentCatches();
             alert('Catch saved! Add another or finish trip.');
-        }
+        };
+
+        // Finish trip
+        document.getElementById('btnFinishTrip').onclick = function() {
+            if (currentTrip.catches.length === 0) {
+                if (!confirm('No catches logged. Save trip anyway?')) return;
+            }
+
+            trips.push(currentTrip);
+            localStorage.setItem('fishingTrips', JSON.stringify(trips));
+            currentTrip = null;
+
+            alert('Trip saved! 🎉');
+            showSection('mainMenu');
+            updateTripCount();
+        };
 
         function updateCurrentCatches() {
             const section = document.getElementById('currentCatchesSection');
             const list = document.getElementById('currentCatchesList');
-            const count = document.getElementById('catchCount');
 
             if (currentTrip.catches.length === 0) {
                 section.classList.add('hidden');
@@ -500,7 +379,7 @@
             }
 
             section.classList.remove('hidden');
-            count.textContent = currentTrip.catches.length;
+            document.getElementById('catchCount').textContent = currentTrip.catches.length;
 
             list.innerHTML = currentTrip.catches.map((c, i) => `
                 <div class="catch-card">
@@ -512,35 +391,24 @@
                     ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
                     ${c.bait ? `<div class="catch-detail">🎣 ${c.bait}</div>` : ''}
                     ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:#ecf0f1; border-radius:4px;">${c.notes}</div>` : ''}
-                    <button class="btn btn-danger" onclick="event.stopPropagation(); deleteCatch(${i});">Delete</button>
+                    <button class="btn btn-danger" data-catch-index="${i}">Delete</button>
                 </div>
             `).join('');
-        }
 
-        function deleteCatch(index) {
-            if (confirm('Delete this catch?')) {
-                currentTrip.catches.splice(index, 1);
-                updateCurrentCatches();
-            }
-        }
-
-        function finishCurrentTrip() {
-            if (currentTrip.catches.length === 0) {
-                if (!confirm('No catches logged. Save trip anyway?')) return;
-            }
-
-            trips.push(currentTrip);
-            localStorage.setItem('fishingTrips', JSON.stringify(trips));
-            currentTrip = null;
-
-            alert('Trip saved! 🎉');
-            showMainMenu();
+            // Attach delete handlers
+            list.querySelectorAll('.btn-danger').forEach(btn => {
+                btn.onclick = function() {
+                    const idx = parseInt(this.dataset.catchIndex);
+                    if (confirm('Delete this catch?')) {
+                        currentTrip.catches.splice(idx, 1);
+                        updateCurrentCatches();
+                    }
+                };
+            });
         }
 
         function viewTrips() {
-            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
-            document.getElementById('viewTripsSection').classList.remove('hidden');
-
+            showSection('viewTripsSection');
             const list = document.getElementById('tripsList');
 
             if (trips.length === 0) {
@@ -558,7 +426,7 @@
             list.innerHTML = trips.slice().reverse().map((trip, i) => {
                 const index = trips.length - 1 - i;
                 return `
-                    <div class="trip-item" onclick="viewTripDetail(${index})">
+                    <div class="trip-item" data-trip-index="${index}">
                         <div class="trip-date">${formatDate(trip.date)}</div>
                         <div class="trip-location">📍 ${trip.location}</div>
                         <div class="trip-stats">
@@ -568,18 +436,29 @@
                     </div>
                 `;
             }).join('');
+
+            // Attach click handlers
+            list.querySelectorAll('.trip-item').forEach(item => {
+                item.onclick = function() {
+                    viewTripDetail(parseInt(this.dataset.tripIndex));
+                };
+            });
         }
 
-        function viewTripDetail(index) {
-            const trip = trips[index];
-            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
-            document.getElementById('tripDetailSection').classList.remove('hidden');
+        document.getElementById('btnBackFromTrips').onclick = function() {
+            showSection('mainMenu');
+            updateTripCount();
+        };
 
+        function viewTripDetail(index) {
+            showSection('tripDetailSection');
+            const trip = trips[index];
             const content = document.getElementById('tripDetailContent');
+
             content.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                     <h2>${formatDate(trip.date)}</h2>
-                    <button class="btn btn-danger" onclick="event.stopPropagation(); deleteTrip(${index});">Delete Trip</button>
+                    <button class="btn btn-danger" id="btnDeleteTrip">Delete Trip</button>
                 </div>
                 <div style="font-size:18px; margin-bottom:15px;">📍 ${trip.location}</div>
                 ${trip.weather ? `<div style="margin-bottom:20px;">${trip.weather}</div>` : ''}
@@ -600,15 +479,20 @@
                     `).join('')
                 }
             `;
+
+            // Attach delete trip handler
+            document.getElementById('btnDeleteTrip').onclick = function() {
+                if (confirm('Delete this entire trip?')) {
+                    trips.splice(index, 1);
+                    localStorage.setItem('fishingTrips', JSON.stringify(trips));
+                    viewTrips();
+                }
+            };
         }
 
-        function deleteTrip(index) {
-            if (confirm('Delete this entire trip?')) {
-                trips.splice(index, 1);
-                localStorage.setItem('fishingTrips', JSON.stringify(trips));
-                viewTrips();
-            }
-        }
+        document.getElementById('btnBackFromDetail').onclick = function() {
+            viewTrips();
+        };
 
         // Initialize
         updateTripCount();
