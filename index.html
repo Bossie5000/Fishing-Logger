@@ -18,174 +18,218 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            background: #0a1929;
             min-height: 100vh;
             padding: 0;
-            color: #333;
+            color: #e0e0e0;
         }
 
         .header {
-            background: rgba(0,0,0,0.2);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
+            background: linear-gradient(to right, #1a4d2e, #2d6a4f);
+            color: #fff;
+            padding: 25px 20px;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 28px;
             margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .container {
-            padding: 15px;
-            max-width: 600px;
+            padding: 20px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
         .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: linear-gradient(145deg, #1e2a38, #253341);
+            border: 1px solid #2d3e50;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
         }
 
         .btn {
             width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
+            padding: 16px;
+            border: 2px solid;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            margin-bottom: 10px;
-            transition: transform 0.1s;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn:active {
-            transform: scale(0.98);
+            transform: translateY(2px);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #2d6a4f;
+            border-color: #3a8a65;
             color: white;
         }
 
+        .btn-primary:hover {
+            background: #3a8a65;
+        }
+
         .btn-success {
-            background: #28a745;
+            background: #1b7f5a;
+            border-color: #22a673;
             color: white;
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: #364b5f;
+            border-color: #4a6278;
             color: white;
         }
 
         .btn-danger {
-            background: #dc3545;
+            background: #8b2e2e;
+            border-color: #a53c3c;
             color: white;
-            padding: 12px;
-            font-size: 14px;
+            padding: 10px;
+            font-size: 13px;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 14px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 13px;
+            border: 2px solid #3d4f5f;
+            border-radius: 6px;
+            font-size: 15px;
             margin-bottom: 15px;
             font-family: inherit;
+            background: #1a2634;
+            color: #e0e0e0;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #2d6a4f;
+            background: #202d3d;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #555;
-            font-size: 14px;
+            color: #a8b8c8;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .photo-btn {
-            background: #f0f0f0;
-            border: 3px dashed #667eea;
-            padding: 40px;
+            background: #1a2634;
+            border: 3px dashed #2d6a4f;
+            padding: 45px;
             text-align: center;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
             margin-bottom: 15px;
-            font-size: 16px;
-            color: #667eea;
+            font-size: 15px;
+            color: #52b788;
+            transition: all 0.3s;
+        }
+
+        .photo-btn:hover {
+            background: #202d3d;
+            border-color: #3a8a65;
         }
 
         .photo-preview {
             width: 100%;
-            border-radius: 12px;
+            border-radius: 8px;
             margin-bottom: 15px;
+            border: 3px solid #2d6a4f;
         }
 
         .trip-item {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #1e2a38, #253341);
+            border: 1px solid #2d3e50;
+            border-left: 5px solid #2d6a4f;
+            border-radius: 6px;
+            padding: 18px;
+            margin-bottom: 15px;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .trip-item:hover {
+            border-left-color: #3a8a65;
+            transform: translateX(3px);
         }
 
         .trip-date {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
-            color: #667eea;
-            margin-bottom: 5px;
+            color: #52b788;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .trip-location {
             font-size: 16px;
-            color: #666;
-            margin-bottom: 8px;
+            color: #b8c5d3;
+            margin-bottom: 10px;
         }
 
         .trip-stats {
-            font-size: 14px;
-            color: #999;
+            font-size: 13px;
+            color: #7a8a9a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .catch-card {
-            background: #f8f9ff;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
+            background: rgba(29, 106, 79, 0.15);
+            border: 1px solid #2d6a4f;
+            border-left: 5px solid #52b788;
+            padding: 18px;
+            margin-bottom: 18px;
+            border-radius: 6px;
         }
 
         .catch-species {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 700;
-            margin-bottom: 10px;
-            color: #333;
+            margin-bottom: 12px;
+            color: #52b788;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .catch-detail {
             font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
+            color: #b8c5d3;
+            margin-bottom: 6px;
         }
 
         .catch-photo {
             width: 100%;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border: 2px solid #2d6a4f;
         }
 
         .hidden {
@@ -194,13 +238,14 @@
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            color: white;
+            padding: 50px 20px;
+            color: #7a8a9a;
         }
 
         .empty-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
+            font-size: 70px;
+            margin-bottom: 20px;
+            opacity: 0.5;
         }
 
         input[type="file"] {
@@ -209,9 +254,79 @@
 
         .back-btn {
             background: transparent;
-            border: 2px solid white;
-            color: white;
+            border: 2px solid #52b788;
+            color: #52b788;
             margin-bottom: 15px;
+        }
+
+        .back-btn:hover {
+            background: rgba(82, 183, 136, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: rgba(29, 106, 79, 0.2);
+            border: 1px solid #2d6a4f;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #52b788;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #7a8a9a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .toggle-section {
+            background: rgba(29, 106, 79, 0.1);
+            border: 1px solid #2d6a4f;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .toggle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #52b788;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+
+        .toggle-content {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #2d6a4f;
+        }
+
+        select option {
+            background: #1a2634;
+            color: #e0e0e0;
         }
     </style>
 </head>
@@ -227,6 +342,7 @@
             <div class="card">
                 <button class="btn btn-primary" onclick="startNewTrip()">➕ New Fishing Trip</button>
                 <button class="btn btn-secondary" onclick="viewTrips()">📋 View Past Trips (<span id="tripCount">0</span>)</button>
+                <button class="btn btn-secondary" onclick="viewStats()">📊 Statistics & Analysis</button>
             </div>
         </div>
 
@@ -234,7 +350,7 @@
         <div id="newTripForm" class="hidden">
             <button class="btn back-btn" onclick="showMainMenu()">← Back</button>
             <div class="card">
-                <h2 style="margin-bottom: 20px;">New Trip</h2>
+                <h2 style="margin-bottom: 20px; color: #52b788;">New Trip</h2>
                 
                 <label>Date</label>
                 <input type="date" id="tripDate">
@@ -246,14 +362,42 @@
                 <select id="tripWeather">
                     <option value="">Select...</option>
                     <option value="☀️ Sunny">☀️ Sunny</option>
-                    <option value="⛅ Cloudy">⛅ Cloudy</option>
+                    <option value="⛅ Partly Cloudy">⛅ Partly Cloudy</option>
                     <option value="☁️ Overcast">☁️ Overcast</option>
                     <option value="🌧️ Rainy">🌧️ Rainy</option>
+                    <option value="⛈️ Stormy">⛈️ Stormy</option>
                     <option value="💨 Windy">💨 Windy</option>
                 </select>
                 
-                <label>Water Temp °C (optional)</label>
-                <input type="number" id="tripTemp" placeholder="e.g., 22">
+                <div class="toggle-section" onclick="toggleAdvanced()">
+                    <div class="toggle-header">
+                        <span>⚙️ Advanced Options</span>
+                        <span id="advancedToggle">+</span>
+                    </div>
+                    <div id="advancedOptions" class="toggle-content hidden">
+                        <label>Air Temp °C (optional)</label>
+                        <input type="number" id="airTemp" placeholder="e.g., 24">
+                        
+                        <label>Wind Speed km/h (optional)</label>
+                        <input type="number" id="windSpeed" placeholder="e.g., 15">
+                        
+                        <label>Moon Phase (optional)</label>
+                        <select id="moonPhase">
+                            <option value="">Select...</option>
+                            <option value="🌑 New Moon">🌑 New Moon</option>
+                            <option value="🌒 Waxing Crescent">🌒 Waxing Crescent</option>
+                            <option value="🌓 First Quarter">🌓 First Quarter</option>
+                            <option value="🌔 Waxing Gibbous">🌔 Waxing Gibbous</option>
+                            <option value="🌕 Full Moon">🌕 Full Moon</option>
+                            <option value="🌖 Waning Gibbous">🌖 Waning Gibbous</option>
+                            <option value="🌗 Last Quarter">🌗 Last Quarter</option>
+                            <option value="🌘 Waning Crescent">🌘 Waning Crescent</option>
+                        </select>
+                        
+                        <label>Barometric Pressure mb (optional)</label>
+                        <input type="number" id="pressure" placeholder="e.g., 1013" step="0.1">
+                    </div>
+                </div>
                 
                 <button class="btn btn-success" onclick="saveNewTrip()">Start Logging</button>
             </div>
@@ -263,7 +407,7 @@
         <div id="addCatchForm" class="hidden">
             <button class="btn back-btn" onclick="finishCurrentTrip()">✓ Finish Trip</button>
             <div class="card">
-                <h2 style="margin-bottom: 20px;">Add Catch</h2>
+                <h2 style="margin-bottom: 20px; color: #52b788;">Add Catch</h2>
                 
                 <div class="photo-btn" onclick="document.getElementById('catchPhoto').click()">
                     <div id="photoText">📷 Tap to Add Photo</div>
@@ -274,20 +418,70 @@
                 <label>Species (optional)</label>
                 <input type="text" id="catchSpecies" placeholder="e.g., Bass, Carp">
                 
-                <label>Weight kg (optional)</label>
-                <input type="text" id="catchWeight" placeholder="e.g., 3.5">
+                <div class="form-row">
+                    <div>
+                        <label>Weight kg</label>
+                        <input type="text" id="catchWeight" placeholder="e.g., 3.5">
+                    </div>
+                    <div>
+                        <label>Length cm</label>
+                        <input type="text" id="catchLength" placeholder="e.g., 45">
+                    </div>
+                </div>
                 
-                <label>Length cm (optional)</label>
-                <input type="text" id="catchLength" placeholder="e.g., 45">
-                
-                <label>Distance m (optional)</label>
+                <label>Distance from Shore m (optional)</label>
                 <input type="text" id="catchDistance" placeholder="e.g., 30">
                 
-                <label>Time (optional)</label>
+                <label>Time Caught (optional)</label>
                 <input type="time" id="catchTime">
                 
+                <label>Bait/Lure Used (optional)</label>
+                <input type="text" id="catchBait" placeholder="e.g., Soft plastic worm, Live bait">
+                
+                <div class="toggle-section" onclick="toggleCatchAdvanced()">
+                    <div class="toggle-header">
+                        <span>⚙️ Advanced Catch Details</span>
+                        <span id="catchAdvancedToggle">+</span>
+                    </div>
+                    <div id="catchAdvancedOptions" class="toggle-content hidden">
+                        <label>Technique/Method (optional)</label>
+                        <select id="technique">
+                            <option value="">Select...</option>
+                            <option value="Casting">Casting</option>
+                            <option value="Trolling">Trolling</option>
+                            <option value="Jigging">Jigging</option>
+                            <option value="Bottom Fishing">Bottom Fishing</option>
+                            <option value="Fly Fishing">Fly Fishing</option>
+                            <option value="Spinning">Spinning</option>
+                        </select>
+                        
+                        <label>Water Clarity (optional)</label>
+                        <select id="waterClarity">
+                            <option value="">Select...</option>
+                            <option value="Crystal Clear">Crystal Clear</option>
+                            <option value="Clear">Clear</option>
+                            <option value="Slightly Stained">Slightly Stained</option>
+                            <option value="Stained">Stained</option>
+                            <option value="Murky">Murky</option>
+                        </select>
+                        
+                        <label>Depth m (optional)</label>
+                        <input type="text" id="depth" placeholder="e.g., 5">
+                        
+                        <label>Water Temp °C (optional)</label>
+                        <input type="number" id="waterTemp" placeholder="e.g., 22">
+                        
+                        <label>GPS Coordinates (optional)</label>
+                        <div class="form-row">
+                            <input type="text" id="latitude" placeholder="Latitude">
+                            <input type="text" id="longitude" placeholder="Longitude">
+                        </div>
+                        <button class="btn btn-secondary" style="font-size: 13px; padding: 10px;" onclick="getLocation()">📍 Get Current Location</button>
+                    </div>
+                </div>
+                
                 <label>Notes (optional)</label>
-                <textarea id="catchNotes" rows="3" placeholder="Bait, conditions, etc."></textarea>
+                <textarea id="catchNotes" rows="3" placeholder="Additional details, conditions, etc."></textarea>
                 
                 <button class="btn btn-success" onclick="saveCatch()">✓ Save Catch</button>
             </div>
@@ -314,6 +508,16 @@
                 <div id="tripDetailContent"></div>
             </div>
         </div>
+
+        <!-- Statistics View -->
+        <div id="statsSection" class="hidden">
+            <button class="btn back-btn" onclick="showMainMenu()">← Back</button>
+            <div class="card">
+                <h2 style="margin-bottom: 25px; color: #52b788;">Your Fishing Statistics</h2>
+                <div class="stats-grid" id="statsGrid"></div>
+                <div id="detailedStats"></div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -323,6 +527,44 @@
 
         // Set today's date
         document.getElementById('tripDate').valueAsDate = new Date();
+
+        function toggleAdvanced() {
+            const content = document.getElementById('advancedOptions');
+            const toggle = document.getElementById('advancedToggle');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                toggle.textContent = '−';
+            } else {
+                content.classList.add('hidden');
+                toggle.textContent = '+';
+            }
+        }
+
+        function toggleCatchAdvanced() {
+            const content = document.getElementById('catchAdvancedOptions');
+            const toggle = document.getElementById('catchAdvancedToggle');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                toggle.textContent = '−';
+            } else {
+                content.classList.add('hidden');
+                toggle.textContent = '+';
+            }
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+                    document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+                    alert('Location captured!');
+                }, function(error) {
+                    alert('Unable to get location. Please enable location services.');
+                });
+            } else {
+                alert('Geolocation is not supported by your device.');
+            }
+        }
 
         function updateTripCount() {
             document.getElementById('tripCount').textContent = trips.length;
@@ -362,14 +604,20 @@
                 date: date,
                 location: location,
                 weather: document.getElementById('tripWeather').value,
-                temp: document.getElementById('tripTemp').value,
+                airTemp: document.getElementById('airTemp').value,
+                windSpeed: document.getElementById('windSpeed').value,
+                moonPhase: document.getElementById('moonPhase').value,
+                pressure: document.getElementById('pressure').value,
                 catches: []
             };
 
             // Clear form
             document.getElementById('tripLocation').value = '';
             document.getElementById('tripWeather').value = '';
-            document.getElementById('tripTemp').value = '';
+            document.getElementById('airTemp').value = '';
+            document.getElementById('windSpeed').value = '';
+            document.getElementById('moonPhase').value = '';
+            document.getElementById('pressure').value = '';
 
             // Show add catch form
             document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
@@ -399,6 +647,13 @@
                 length: document.getElementById('catchLength').value,
                 distance: document.getElementById('catchDistance').value,
                 time: document.getElementById('catchTime').value,
+                bait: document.getElementById('catchBait').value,
+                technique: document.getElementById('technique').value,
+                waterClarity: document.getElementById('waterClarity').value,
+                depth: document.getElementById('depth').value,
+                waterTemp: document.getElementById('waterTemp').value,
+                latitude: document.getElementById('latitude').value,
+                longitude: document.getElementById('longitude').value,
                 notes: document.getElementById('catchNotes').value
             };
 
@@ -411,6 +666,13 @@
             document.getElementById('catchLength').value = '';
             document.getElementById('catchDistance').value = '';
             document.getElementById('catchTime').value = '';
+            document.getElementById('catchBait').value = '';
+            document.getElementById('technique').value = '';
+            document.getElementById('waterClarity').value = '';
+            document.getElementById('depth').value = '';
+            document.getElementById('waterTemp').value = '';
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
             document.getElementById('catchNotes').value = '';
             document.getElementById('photoPreview').classList.add('hidden');
             document.getElementById('photoText').textContent = '📷 Tap to Add Photo';
@@ -439,9 +701,15 @@
                     <div class="catch-species">${c.species}</div>
                     ${c.weight ? `<div class="catch-detail">⚖️ ${c.weight} kg</div>` : ''}
                     ${c.length ? `<div class="catch-detail">📏 ${c.length} cm</div>` : ''}
-                    ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m</div>` : ''}
+                    ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m from shore</div>` : ''}
                     ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
-                    ${c.notes ? `<div class="catch-detail" style="margin-top:8px;">${c.notes}</div>` : ''}
+                    ${c.bait ? `<div class="catch-detail">🎣 ${c.bait}</div>` : ''}
+                    ${c.technique ? `<div class="catch-detail">⚙️ ${c.technique}</div>` : ''}
+                    ${c.waterClarity ? `<div class="catch-detail">💧 ${c.waterClarity}</div>` : ''}
+                    ${c.depth ? `<div class="catch-detail">🌊 Depth: ${c.depth} m</div>` : ''}
+                    ${c.waterTemp ? `<div class="catch-detail">🌡️ Water: ${c.waterTemp}°C</div>` : ''}
+                    ${c.latitude && c.longitude ? `<div class="catch-detail">📍 ${c.latitude}, ${c.longitude}</div>` : ''}
+                    ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:rgba(29, 106, 79, 0.1); border-radius:4px;">${c.notes}</div>` : ''}
                     <button class="btn btn-danger" onclick="deleteCatch(${i})">Delete</button>
                 </div>
             `).join('');
@@ -494,7 +762,7 @@
                         <div class="trip-stats">
                             🐟 ${trip.catches.length} catch${trip.catches.length !== 1 ? 'es' : ''}
                             ${trip.weather ? ` • ${trip.weather}` : ''}
-                            ${trip.temp ? ` • ${trip.temp}°C` : ''}
+                            ${trip.moonPhase ? ` • ${trip.moonPhase}` : ''}
                         </div>
                     </div>
                 `;
@@ -509,24 +777,33 @@
             const content = document.getElementById('tripDetailContent');
             content.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h2 style="color:#667eea;">${formatDate(trip.date)}</h2>
+                    <h2 style="color:#52b788;">${formatDate(trip.date)}</h2>
                     <button class="btn btn-danger" onclick="deleteTrip(${index})">Delete Trip</button>
                 </div>
                 <div style="font-size:18px; margin-bottom:15px;">📍 ${trip.location}</div>
                 ${trip.weather ? `<div style="margin-bottom:8px;">${trip.weather}</div>` : ''}
-                ${trip.temp ? `<div style="margin-bottom:20px;">🌡️ ${trip.temp}°C</div>` : ''}
+                ${trip.airTemp ? `<div style="margin-bottom:8px;">🌡️ Air: ${trip.airTemp}°C</div>` : ''}
+                ${trip.windSpeed ? `<div style="margin-bottom:8px;">💨 Wind: ${trip.windSpeed} km/h</div>` : ''}
+                ${trip.moonPhase ? `<div style="margin-bottom:8px;">${trip.moonPhase}</div>` : ''}
+                ${trip.pressure ? `<div style="margin-bottom:20px;">🔽 Pressure: ${trip.pressure} mb</div>` : ''}
                 
-                <h3 style="margin:25px 0 15px 0;">Catches (${trip.catches.length})</h3>
-                ${trip.catches.length === 0 ? '<p style="color:#999;">No catches logged</p>' : 
+                <h3 style="margin:25px 0 15px 0; color: #52b788;">Catches (${trip.catches.length})</h3>
+                ${trip.catches.length === 0 ? '<p style="color:#7a8a9a;">No catches logged</p>' : 
                     trip.catches.map(c => `
                         <div class="catch-card">
                             ${c.photo ? `<img src="${c.photo}" class="catch-photo">` : ''}
                             <div class="catch-species">${c.species}</div>
                             ${c.weight ? `<div class="catch-detail">⚖️ ${c.weight} kg</div>` : ''}
                             ${c.length ? `<div class="catch-detail">📏 ${c.length} cm</div>` : ''}
-                            ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m</div>` : ''}
+                            ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m from shore</div>` : ''}
                             ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
-                            ${c.notes ? `<div class="catch-detail" style="margin-top:8px;">${c.notes}</div>` : ''}
+                            ${c.bait ? `<div class="catch-detail">🎣 ${c.bait}</div>` : ''}
+                            ${c.technique ? `<div class="catch-detail">⚙️ ${c.technique}</div>` : ''}
+                            ${c.waterClarity ? `<div class="catch-detail">💧 ${c.waterClarity}</div>` : ''}
+                            ${c.depth ? `<div class="catch-detail">🌊 Depth: ${c.depth} m</div>` : ''}
+                            ${c.waterTemp ? `<div class="catch-detail">🌡️ Water: ${c.waterTemp}°C</div>` : ''}
+                            ${c.latitude && c.longitude ? `<div class="catch-detail">📍 ${c.latitude}, ${c.longitude}</div>` : ''}
+                            ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:rgba(29, 106, 79, 0.1); border-radius:4px;">${c.notes}</div>` : ''}
                         </div>
                     `).join('')
                 }
@@ -539,6 +816,100 @@
                 localStorage.setItem('fishingTrips', JSON.stringify(trips));
                 viewTrips();
             }
+        }
+
+        function viewStats() {
+            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById('statsSection').classList.remove('hidden');
+
+            const allCatches = trips.flatMap(t => t.catches);
+            const totalTrips = trips.length;
+            const totalCatches = allCatches.length;
+
+            const weights = allCatches.filter(c => c.weight).map(c => parseFloat(c.weight));
+            const lengths = allCatches.filter(c => c.length).map(c => parseFloat(c.length));
+
+            const avgWeight = weights.length ? (weights.reduce((a,b) => a+b, 0) / weights.length).toFixed(2) : 0;
+            const maxWeight = weights.length ? Math.max(...weights).toFixed(2) : 0;
+            const avgLength = lengths.length ? (lengths.reduce((a,b) => a+b, 0) / lengths.length).toFixed(1) : 0;
+            const maxLength = lengths.length ? Math.max(...lengths).toFixed(1) : 0;
+            const avgPerTrip = totalTrips ? (totalCatches / totalTrips).toFixed(1) : 0;
+
+            // Species breakdown
+            const speciesCount = {};
+            allCatches.forEach(c => {
+                const species = c.species || 'Unknown';
+                speciesCount[species] = (speciesCount[species] || 0) + 1;
+            });
+            const topSpecies = Object.entries(speciesCount).sort((a,b) => b[1] - a[1]).slice(0, 5);
+
+            // Bait effectiveness
+            const baitCount = {};
+            allCatches.forEach(c => {
+                if (c.bait) {
+                    baitCount[c.bait] = (baitCount[c.bait] || 0) + 1;
+                }
+            });
+            const topBaits = Object.entries(baitCount).sort((a,b) => b[1] - a[1]).slice(0, 5);
+
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">${totalTrips}</div>
+                    <div class="stat-label">Total Trips</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${totalCatches}</div>
+                    <div class="stat-label">Total Catches</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${avgPerTrip}</div>
+                    <div class="stat-label">Avg Per Trip</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${maxWeight}</div>
+                    <div class="stat-label">Biggest (kg)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${avgWeight}</div>
+                    <div class="stat-label">Avg Weight (kg)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${maxLength}</div>
+                    <div class="stat-label">Longest (cm)</div>
+                </div>
+            `;
+
+            let detailedHtml = '';
+
+            if (topSpecies.length > 0) {
+                detailedHtml += `
+                    <h3 style="color: #52b788; margin: 25px 0 15px 0; text-transform: uppercase; font-size: 15px; letter-spacing: 1px;">Top Species</h3>
+                `;
+                topSpecies.forEach(([species, count]) => {
+                    detailedHtml += `
+                        <div style="display: flex; justify-content: space-between; padding: 10px; background: rgba(29, 106, 79, 0.1); border-radius: 4px; margin-bottom: 8px;">
+                            <span>${species}</span>
+                            <span style="color: #52b788; font-weight: 700;">${count} catches</span>
+                        </div>
+                    `;
+                });
+            }
+
+            if (topBaits.length > 0) {
+                detailedHtml += `
+                    <h3 style="color: #52b788; margin: 25px 0 15px 0; text-transform: uppercase; font-size: 15px; letter-spacing: 1px;">Most Effective Baits</h3>
+                `;
+                topBaits.forEach(([bait, count]) => {
+                    detailedHtml += `
+                        <div style="display: flex; justify-content: space-between; padding: 10px; background: rgba(29, 106, 79, 0.1); border-radius: 4px; margin-bottom: 8px;">
+                            <span>${bait}</span>
+                            <span style="color: #52b788; font-weight: 700;">${count} catches</span>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('detailedStats').innerHTML = detailedHtml;
         }
 
         // Initialize
