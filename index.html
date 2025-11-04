@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Fishing Logger">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3c72">
+    <title>Fishing Logger</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(0,0,0,0.2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .photo-btn {
+            background: #f0f0f0;
+            border: 3px dashed #667eea;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #667eea;
+        }
+
+        .photo-preview {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .trip-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .trip-date {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .trip-location {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .trip-stats {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .catch-card {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .catch-species {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .catch-detail {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .catch-photo {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎣 Fishing Logger</h1>
+        <p>Track your catches</p>
+    </div>
+
+    <div class="container">
+        <!-- Main Menu -->
+        <div id="mainMenu">
+            <div class="card">
+                <button class="btn btn-primary" onclick="startNewTrip()">➕ New Fishing Trip</button>
+                <button class="btn btn-secondary" onclick="viewTrips()">📋 View Past Trips (<span id="tripCount">0</span>)</button>
+            </div>
+        </div>
+
+        <!-- New Trip Form -->
+        <div id="newTripForm" class="hidden">
+            <button class="btn back-btn" onclick="showMainMenu()">← Back</button>
+            <div class="card">
+                <h2 style="margin-bottom: 20px;">New Trip</h2>
+                
+                <label>Date</label>
+                <input type="date" id="tripDate">
+                
+                <label>Location/Dam</label>
+                <input type="text" id="tripLocation" placeholder="e.g., Hartbeespoort Dam">
+                
+                <label>Weather (optional)</label>
+                <select id="tripWeather">
+                    <option value="">Select...</option>
+                    <option value="☀️ Sunny">☀️ Sunny</option>
+                    <option value="⛅ Cloudy">⛅ Cloudy</option>
+                    <option value="☁️ Overcast">☁️ Overcast</option>
+                    <option value="🌧️ Rainy">🌧️ Rainy</option>
+                    <option value="💨 Windy">💨 Windy</option>
+                </select>
+                
+                <label>Water Temp °C (optional)</label>
+                <input type="number" id="tripTemp" placeholder="e.g., 22">
+                
+                <button class="btn btn-success" onclick="saveNewTrip()">Start Logging</button>
+            </div>
+        </div>
+
+        <!-- Add Catch Form -->
+        <div id="addCatchForm" class="hidden">
+            <button class="btn back-btn" onclick="finishCurrentTrip()">✓ Finish Trip</button>
+            <div class="card">
+                <h2 style="margin-bottom: 20px;">Add Catch</h2>
+                
+                <div class="photo-btn" onclick="document.getElementById('catchPhoto').click()">
+                    <div id="photoText">📷 Tap to Add Photo</div>
+                </div>
+                <input type="file" id="catchPhoto" accept="image/*" onchange="handlePhoto(event)">
+                <img id="photoPreview" class="photo-preview hidden">
+                
+                <label>Species (optional)</label>
+                <input type="text" id="catchSpecies" placeholder="e.g., Bass, Carp">
+                
+                <label>Weight kg (optional)</label>
+                <input type="text" id="catchWeight" placeholder="e.g., 3.5">
+                
+                <label>Length cm (optional)</label>
+                <input type="text" id="catchLength" placeholder="e.g., 45">
+                
+                <label>Distance m (optional)</label>
+                <input type="text" id="catchDistance" placeholder="e.g., 30">
+                
+                <label>Time (optional)</label>
+                <input type="time" id="catchTime">
+                
+                <label>Notes (optional)</label>
+                <textarea id="catchNotes" rows="3" placeholder="Bait, conditions, etc."></textarea>
+                
+                <button class="btn btn-success" onclick="saveCatch()">✓ Save Catch</button>
+            </div>
+
+            <!-- Current Catches -->
+            <div id="currentCatchesSection" class="hidden">
+                <div class="card">
+                    <h3 style="margin-bottom: 15px;">Today's Catches (<span id="catchCount">0</span>)</h3>
+                    <div id="currentCatchesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Trips -->
+        <div id="viewTripsSection" class="hidden">
+            <button class="btn back-btn" onclick="showMainMenu()">← Back</button>
+            <div id="tripsList"></div>
+        </div>
+
+        <!-- View Trip Detail -->
+        <div id="tripDetailSection" class="hidden">
+            <button class="btn back-btn" onclick="viewTrips()">← Back to Trips</button>
+            <div class="card">
+                <div id="tripDetailContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let trips = JSON.parse(localStorage.getItem('fishingTrips')) || [];
+        let currentTrip = null;
+        let currentPhoto = null;
+
+        // Set today's date
+        document.getElementById('tripDate').valueAsDate = new Date();
+
+        function updateTripCount() {
+            document.getElementById('tripCount').textContent = trips.length;
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        function showMainMenu() {
+            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById('mainMenu').classList.remove('hidden');
+            updateTripCount();
+        }
+
+        function startNewTrip() {
+            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById('newTripForm').classList.remove('hidden');
+            document.getElementById('tripDate').valueAsDate = new Date();
+        }
+
+        function saveNewTrip() {
+            const date = document.getElementById('tripDate').value;
+            const location = document.getElementById('tripLocation').value;
+
+            if (!date || !location) {
+                alert('Please enter date and location');
+                return;
+            }
+
+            currentTrip = {
+                id: Date.now(),
+                date: date,
+                location: location,
+                weather: document.getElementById('tripWeather').value,
+                temp: document.getElementById('tripTemp').value,
+                catches: []
+            };
+
+            // Clear form
+            document.getElementById('tripLocation').value = '';
+            document.getElementById('tripWeather').value = '';
+            document.getElementById('tripTemp').value = '';
+
+            // Show add catch form
+            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById('addCatchForm').classList.remove('hidden');
+            updateCurrentCatches();
+        }
+
+        function handlePhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentPhoto = e.target.result;
+                    document.getElementById('photoPreview').src = currentPhoto;
+                    document.getElementById('photoPreview').classList.remove('hidden');
+                    document.getElementById('photoText').textContent = '✓ Photo Added';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveCatch() {
+            const catchData = {
+                photo: currentPhoto,
+                species: document.getElementById('catchSpecies').value || 'Fish',
+                weight: document.getElementById('catchWeight').value,
+                length: document.getElementById('catchLength').value,
+                distance: document.getElementById('catchDistance').value,
+                time: document.getElementById('catchTime').value,
+                notes: document.getElementById('catchNotes').value
+            };
+
+            currentTrip.catches.push(catchData);
+
+            // Clear form
+            document.getElementById('catchPhoto').value = '';
+            document.getElementById('catchSpecies').value = '';
+            document.getElementById('catchWeight').value = '';
+            document.getElementById('catchLength').value = '';
+            document.getElementById('catchDistance').value = '';
+            document.getElementById('catchTime').value = '';
+            document.getElementById('catchNotes').value = '';
+            document.getElementById('photoPreview').classList.add('hidden');
+            document.getElementById('photoText').textContent = '📷 Tap to Add Photo';
+            currentPhoto = null;
+
+            updateCurrentCatches();
+            alert('Catch saved! Add another or finish trip.');
+        }
+
+        function updateCurrentCatches() {
+            const section = document.getElementById('currentCatchesSection');
+            const list = document.getElementById('currentCatchesList');
+            const count = document.getElementById('catchCount');
+
+            if (currentTrip.catches.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            count.textContent = currentTrip.catches.length;
+
+            list.innerHTML = currentTrip.catches.map((c, i) => `
+                <div class="catch-card">
+                    ${c.photo ? `<img src="${c.photo}" class="catch-photo">` : ''}
+                    <div class="catch-species">${c.species}</div>
+                    ${c.weight ? `<div class="catch-detail">⚖️ ${c.weight} kg</div>` : ''}
+                    ${c.length ? `<div class="catch-detail">📏 ${c.length} cm</div>` : ''}
+                    ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m</div>` : ''}
+                    ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
+                    ${c.notes ? `<div class="catch-detail" style="margin-top:8px;">${c.notes}</div>` : ''}
+                    <button class="btn btn-danger" onclick="deleteCatch(${i})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteCatch(index) {
+            if (confirm('Delete this catch?')) {
+                currentTrip.catches.splice(index, 1);
+                updateCurrentCatches();
+            }
+        }
+
+        function finishCurrentTrip() {
+            if (currentTrip.catches.length === 0) {
+                if (!confirm('No catches logged. Save trip anyway?')) return;
+            }
+
+            trips.push(currentTrip);
+            localStorage.setItem('fishingTrips', JSON.stringify(trips));
+            currentTrip = null;
+
+            alert('Trip saved! 🎉');
+            showMainMenu();
+        }
+
+        function viewTrips() {
+            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById('viewTripsSection').classList.remove('hidden');
+
+            const list = document.getElementById('tripsList');
+
+            if (trips.length === 0) {
+                list.innerHTML = `
+                    <div class="card">
+                        <div class="empty-state">
+                            <div class="empty-icon">🎣</div>
+                            <p>No trips yet!<br>Start your first fishing trip.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = trips.slice().reverse().map((trip, i) => {
+                const index = trips.length - 1 - i;
+                return `
+                    <div class="trip-item" onclick="viewTripDetail(${index})">
+                        <div class="trip-date">${formatDate(trip.date)}</div>
+                        <div class="trip-location">📍 ${trip.location}</div>
+                        <div class="trip-stats">
+                            🐟 ${trip.catches.length} catch${trip.catches.length !== 1 ? 'es' : ''}
+                            ${trip.weather ? ` • ${trip.weather}` : ''}
+                            ${trip.temp ? ` • ${trip.temp}°C` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewTripDetail(index) {
+            const trip = trips[index];
+            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tripDetailSection').classList.remove('hidden');
+
+            const content = document.getElementById('tripDetailContent');
+            content.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h2 style="color:#667eea;">${formatDate(trip.date)}</h2>
+                    <button class="btn btn-danger" onclick="deleteTrip(${index})">Delete Trip</button>
+                </div>
+                <div style="font-size:18px; margin-bottom:15px;">📍 ${trip.location}</div>
+                ${trip.weather ? `<div style="margin-bottom:8px;">${trip.weather}</div>` : ''}
+                ${trip.temp ? `<div style="margin-bottom:20px;">🌡️ ${trip.temp}°C</div>` : ''}
+                
+                <h3 style="margin:25px 0 15px 0;">Catches (${trip.catches.length})</h3>
+                ${trip.catches.length === 0 ? '<p style="color:#999;">No catches logged</p>' : 
+                    trip.catches.map(c => `
+                        <div class="catch-card">
+                            ${c.photo ? `<img src="${c.photo}" class="catch-photo">` : ''}
+                            <div class="catch-species">${c.species}</div>
+                            ${c.weight ? `<div class="catch-detail">⚖️ ${c.weight} kg</div>` : ''}
+                            ${c.length ? `<div class="catch-detail">📏 ${c.length} cm</div>` : ''}
+                            ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m</div>` : ''}
+                            ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
+                            ${c.notes ? `<div class="catch-detail" style="margin-top:8px;">${c.notes}</div>` : ''}
+                        </div>
+                    `).join('')
+                }
+            `;
+        }
+
+        function deleteTrip(index) {
+            if (confirm('Delete this entire trip?')) {
+                trips.splice(index, 1);
+                localStorage.setItem('fishingTrips', JSON.stringify(trips));
+                viewTrips();
+            }
+        }
+
+        // Initialize
+        updateTripCount();
+    </script>
+</body>
+</html>
