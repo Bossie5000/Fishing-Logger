@@ -369,36 +369,6 @@
                     <option value="💨 Windy">💨 Windy</option>
                 </select>
                 
-                <div class="toggle-section" onclick="toggleAdvanced()">
-                    <div class="toggle-header">
-                        <span>⚙️ Advanced Options</span>
-                        <span id="advancedToggle">+</span>
-                    </div>
-                    <div id="advancedOptions" class="toggle-content hidden">
-                        <label>Air Temp °C (optional)</label>
-                        <input type="number" id="airTemp" placeholder="e.g., 24">
-                        
-                        <label>Wind Speed km/h (optional)</label>
-                        <input type="number" id="windSpeed" placeholder="e.g., 15">
-                        
-                        <label>Moon Phase (optional)</label>
-                        <select id="moonPhase">
-                            <option value="">Select...</option>
-                            <option value="🌑 New Moon">🌑 New Moon</option>
-                            <option value="🌒 Waxing Crescent">🌒 Waxing Crescent</option>
-                            <option value="🌓 First Quarter">🌓 First Quarter</option>
-                            <option value="🌔 Waxing Gibbous">🌔 Waxing Gibbous</option>
-                            <option value="🌕 Full Moon">🌕 Full Moon</option>
-                            <option value="🌖 Waning Gibbous">🌖 Waning Gibbous</option>
-                            <option value="🌗 Last Quarter">🌗 Last Quarter</option>
-                            <option value="🌘 Waning Crescent">🌘 Waning Crescent</option>
-                        </select>
-                        
-                        <label>Barometric Pressure mb (optional)</label>
-                        <input type="number" id="pressure" placeholder="e.g., 1013" step="0.1">
-                    </div>
-                </div>
-                
                 <button class="btn btn-success" onclick="saveNewTrip()">Start Logging</button>
             </div>
         </div>
@@ -437,48 +407,6 @@
                 
                 <label>Bait/Lure Used (optional)</label>
                 <input type="text" id="catchBait" placeholder="e.g., Soft plastic worm, Live bait">
-                
-                <div class="toggle-section" onclick="toggleCatchAdvanced()">
-                    <div class="toggle-header">
-                        <span>⚙️ Advanced Catch Details</span>
-                        <span id="catchAdvancedToggle">+</span>
-                    </div>
-                    <div id="catchAdvancedOptions" class="toggle-content hidden">
-                        <label>Technique/Method (optional)</label>
-                        <select id="technique">
-                            <option value="">Select...</option>
-                            <option value="Casting">Casting</option>
-                            <option value="Trolling">Trolling</option>
-                            <option value="Jigging">Jigging</option>
-                            <option value="Bottom Fishing">Bottom Fishing</option>
-                            <option value="Fly Fishing">Fly Fishing</option>
-                            <option value="Spinning">Spinning</option>
-                        </select>
-                        
-                        <label>Water Clarity (optional)</label>
-                        <select id="waterClarity">
-                            <option value="">Select...</option>
-                            <option value="Crystal Clear">Crystal Clear</option>
-                            <option value="Clear">Clear</option>
-                            <option value="Slightly Stained">Slightly Stained</option>
-                            <option value="Stained">Stained</option>
-                            <option value="Murky">Murky</option>
-                        </select>
-                        
-                        <label>Depth m (optional)</label>
-                        <input type="text" id="depth" placeholder="e.g., 5">
-                        
-                        <label>Water Temp °C (optional)</label>
-                        <input type="number" id="waterTemp" placeholder="e.g., 22">
-                        
-                        <label>GPS Coordinates (optional)</label>
-                        <div class="form-row">
-                            <input type="text" id="latitude" placeholder="Latitude">
-                            <input type="text" id="longitude" placeholder="Longitude">
-                        </div>
-                        <button class="btn btn-secondary" style="font-size: 13px; padding: 10px;" onclick="getLocation()">📍 Get Current Location</button>
-                    </div>
-                </div>
                 
                 <label>Notes (optional)</label>
                 <textarea id="catchNotes" rows="3" placeholder="Additional details, conditions, etc."></textarea>
@@ -528,44 +456,6 @@
         // Set today's date
         document.getElementById('tripDate').valueAsDate = new Date();
 
-        function toggleAdvanced() {
-            const content = document.getElementById('advancedOptions');
-            const toggle = document.getElementById('advancedToggle');
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                toggle.textContent = '−';
-            } else {
-                content.classList.add('hidden');
-                toggle.textContent = '+';
-            }
-        }
-
-        function toggleCatchAdvanced() {
-            const content = document.getElementById('catchAdvancedOptions');
-            const toggle = document.getElementById('catchAdvancedToggle');
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                toggle.textContent = '−';
-            } else {
-                content.classList.add('hidden');
-                toggle.textContent = '+';
-            }
-        }
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
-                    document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
-                    alert('Location captured!');
-                }, function(error) {
-                    alert('Unable to get location. Please enable location services.');
-                });
-            } else {
-                alert('Geolocation is not supported by your device.');
-            }
-        }
-
         function updateTripCount() {
             document.getElementById('tripCount').textContent = trips.length;
         }
@@ -604,20 +494,12 @@
                 date: date,
                 location: location,
                 weather: document.getElementById('tripWeather').value,
-                airTemp: document.getElementById('airTemp').value,
-                windSpeed: document.getElementById('windSpeed').value,
-                moonPhase: document.getElementById('moonPhase').value,
-                pressure: document.getElementById('pressure').value,
                 catches: []
             };
 
             // Clear form
             document.getElementById('tripLocation').value = '';
             document.getElementById('tripWeather').value = '';
-            document.getElementById('airTemp').value = '';
-            document.getElementById('windSpeed').value = '';
-            document.getElementById('moonPhase').value = '';
-            document.getElementById('pressure').value = '';
 
             // Show add catch form
             document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
@@ -648,12 +530,6 @@
                 distance: document.getElementById('catchDistance').value,
                 time: document.getElementById('catchTime').value,
                 bait: document.getElementById('catchBait').value,
-                technique: document.getElementById('technique').value,
-                waterClarity: document.getElementById('waterClarity').value,
-                depth: document.getElementById('depth').value,
-                waterTemp: document.getElementById('waterTemp').value,
-                latitude: document.getElementById('latitude').value,
-                longitude: document.getElementById('longitude').value,
                 notes: document.getElementById('catchNotes').value
             };
 
@@ -667,12 +543,6 @@
             document.getElementById('catchDistance').value = '';
             document.getElementById('catchTime').value = '';
             document.getElementById('catchBait').value = '';
-            document.getElementById('technique').value = '';
-            document.getElementById('waterClarity').value = '';
-            document.getElementById('depth').value = '';
-            document.getElementById('waterTemp').value = '';
-            document.getElementById('latitude').value = '';
-            document.getElementById('longitude').value = '';
             document.getElementById('catchNotes').value = '';
             document.getElementById('photoPreview').classList.add('hidden');
             document.getElementById('photoText').textContent = '📷 Tap to Add Photo';
@@ -704,15 +574,19 @@
                     ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m from shore</div>` : ''}
                     ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
                     ${c.bait ? `<div class="catch-detail">🎣 ${c.bait}</div>` : ''}
-                    ${c.technique ? `<div class="catch-detail">⚙️ ${c.technique}</div>` : ''}
-                    ${c.waterClarity ? `<div class="catch-detail">💧 ${c.waterClarity}</div>` : ''}
-                    ${c.depth ? `<div class="catch-detail">🌊 Depth: ${c.depth} m</div>` : ''}
-                    ${c.waterTemp ? `<div class="catch-detail">🌡️ Water: ${c.waterTemp}°C</div>` : ''}
-                    ${c.latitude && c.longitude ? `<div class="catch-detail">📍 ${c.latitude}, ${c.longitude}</div>` : ''}
                     ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:rgba(29, 106, 79, 0.1); border-radius:4px;">${c.notes}</div>` : ''}
-                    <button class="btn btn-danger" onclick="deleteCatch(${i})">Delete</button>
+                    <button class="btn btn-danger delete-catch-btn" data-index="${i}">Delete</button>
                 </div>
             `).join('');
+
+            // Attach event listeners to delete buttons
+            list.querySelectorAll('.delete-catch-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    deleteCatch(index);
+                });
+            });
         }
 
         function deleteCatch(index) {
@@ -756,17 +630,24 @@
             list.innerHTML = trips.slice().reverse().map((trip, i) => {
                 const index = trips.length - 1 - i;
                 return `
-                    <div class="trip-item" onclick="viewTripDetail(${index})">
+                    <div class="trip-item" data-trip-index="${index}">
                         <div class="trip-date">${formatDate(trip.date)}</div>
                         <div class="trip-location">📍 ${trip.location}</div>
                         <div class="trip-stats">
                             🐟 ${trip.catches.length} catch${trip.catches.length !== 1 ? 'es' : ''}
                             ${trip.weather ? ` • ${trip.weather}` : ''}
-                            ${trip.moonPhase ? ` • ${trip.moonPhase}` : ''}
                         </div>
                     </div>
                 `;
             }).join('');
+
+            // Attach event listeners to trip items
+            list.querySelectorAll('.trip-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-trip-index'));
+                    viewTripDetail(index);
+                });
+            });
         }
 
         function viewTripDetail(index) {
@@ -778,14 +659,10 @@
             content.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                     <h2 style="color:#52b788;">${formatDate(trip.date)}</h2>
-                    <button class="btn btn-danger" onclick="deleteTrip(${index})">Delete Trip</button>
+                    <button class="btn btn-danger delete-trip-btn" data-trip-index="${index}">Delete Trip</button>
                 </div>
                 <div style="font-size:18px; margin-bottom:15px;">📍 ${trip.location}</div>
-                ${trip.weather ? `<div style="margin-bottom:8px;">${trip.weather}</div>` : ''}
-                ${trip.airTemp ? `<div style="margin-bottom:8px;">🌡️ Air: ${trip.airTemp}°C</div>` : ''}
-                ${trip.windSpeed ? `<div style="margin-bottom:8px;">💨 Wind: ${trip.windSpeed} km/h</div>` : ''}
-                ${trip.moonPhase ? `<div style="margin-bottom:8px;">${trip.moonPhase}</div>` : ''}
-                ${trip.pressure ? `<div style="margin-bottom:20px;">🔽 Pressure: ${trip.pressure} mb</div>` : ''}
+                ${trip.weather ? `<div style="margin-bottom:20px;">${trip.weather}</div>` : ''}
                 
                 <h3 style="margin:25px 0 15px 0; color: #52b788;">Catches (${trip.catches.length})</h3>
                 ${trip.catches.length === 0 ? '<p style="color:#7a8a9a;">No catches logged</p>' : 
@@ -798,16 +675,18 @@
                             ${c.distance ? `<div class="catch-detail">📍 ${c.distance} m from shore</div>` : ''}
                             ${c.time ? `<div class="catch-detail">🕐 ${c.time}</div>` : ''}
                             ${c.bait ? `<div class="catch-detail">🎣 ${c.bait}</div>` : ''}
-                            ${c.technique ? `<div class="catch-detail">⚙️ ${c.technique}</div>` : ''}
-                            ${c.waterClarity ? `<div class="catch-detail">💧 ${c.waterClarity}</div>` : ''}
-                            ${c.depth ? `<div class="catch-detail">🌊 Depth: ${c.depth} m</div>` : ''}
-                            ${c.waterTemp ? `<div class="catch-detail">🌡️ Water: ${c.waterTemp}°C</div>` : ''}
-                            ${c.latitude && c.longitude ? `<div class="catch-detail">📍 ${c.latitude}, ${c.longitude}</div>` : ''}
                             ${c.notes ? `<div class="catch-detail" style="margin-top:10px; padding:10px; background:rgba(29, 106, 79, 0.1); border-radius:4px;">${c.notes}</div>` : ''}
                         </div>
                     `).join('')
                 }
             `;
+
+            // Attach event listener to delete trip button
+            content.querySelector('.delete-trip-btn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                const tripIndex = parseInt(this.getAttribute('data-trip-index'));
+                deleteTrip(tripIndex);
+            });
         }
 
         function deleteTrip(index) {
